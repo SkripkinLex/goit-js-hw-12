@@ -16,6 +16,7 @@ const inputEl = document.querySelector('.search-form__input');
 const ulEl = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const loadMoreBtnEl = document.querySelector('.load-more__button');
+gallery = new SimpleLightbox('.gallery a');
 
 export const perPage = 15;
 export let pageNumber = 1;
@@ -106,7 +107,7 @@ formEl.addEventListener('submit', async event => {
         ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
         increasePage();
 
-        gallery = new SimpleLightbox('.gallery a');
+        
         gallery.refresh();
 
         loadMoreBtnEl.classList.add('active');

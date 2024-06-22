@@ -16,7 +16,6 @@ const inputEl = document.querySelector('.search-form__input');
 const ulEl = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const loadMoreBtnEl = document.querySelector('.load-more__button');
-gallery = new SimpleLightbox('.gallery a');
 
 export const perPage = 15;
 export let pageNumber = 1;
@@ -24,6 +23,8 @@ export let pageNumber = 1;
 let data = null;
 let query;
 let gallery;
+
+gallery = new SimpleLightbox('.gallery a');
 
 // ---------------------------------------------------------
 

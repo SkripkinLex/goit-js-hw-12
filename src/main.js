@@ -127,17 +127,19 @@ formEl.addEventListener('submit', async event => {
 
 // -------------------- Click button's actions
 
-loadMoreBtnEl.addEventListener('click', async e => {
-  //   Кількість груп в колекції
+
+// -----loadMoreBtnEl.addEventListener('click', async e => {
+  // Кількість груп в колекції
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  checkEndPages(totalPages);
+  if (currentPage >= totalPages) {
+    console.log('No more pages to load.');
+    loadMoreBtnEl.disabled = true;
+  } else {
+    data = await sendQuery(query);
 
-  data = await sendQuery(query);
+    ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
+    gallery.refresh();
 
-  ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
-  gallery.refresh();
-
-  increasePage();
-});
-// ---------------------------------------------
+    increasePage();
+  };

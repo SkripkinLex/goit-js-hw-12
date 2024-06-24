@@ -25,21 +25,7 @@ let query;
 let gallery;
 
 gallery = new SimpleLightbox('.gallery a');
-const loadMoreControle =  async () => {
-  const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (pageNumber >= totalPages) {
-    console.log('No more pages to load.');
-    loadMoreBtnEl.disabled = true;
-  } else {
-    data = await sendQuery(query);
-
-    ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
-    gallery.refresh();
-
-    increasePage();
-  }
-};
 // ---------------------------------------------------------
 
 function clearGallery() {
@@ -76,6 +62,22 @@ function checkEndPages(totalPages) {
   }
 }
 
+async function loadMoreControle() {
+  const totalPages = Math.ceil(data.totalHits / perPage);
+
+  if (pageNumber >= totalPages) {
+    console.log('No more pages to load.');
+    loadMoreBtnEl.disabled = true;
+  } else {
+    data = await sendQuery(query);
+
+    ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
+    gallery.refresh();
+
+    increasePage();
+  }
+};
+
 // ---------- Submit actions-----------------------------------------------
 
 formEl.addEventListener('submit', async event => {
@@ -92,7 +94,7 @@ formEl.addEventListener('submit', async event => {
 
     try {
       data = await sendQuery(query); // {total: 24170, totalHits: 500, hits: Array(3)}
-
+      loadMoreControle();
       // ---------------- If the data.hits === [] ---------
 
       if (data.hits.length === 0) {
@@ -122,7 +124,7 @@ formEl.addEventListener('submit', async event => {
         ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
         increasePage();
 
-        
+
         gallery.refresh();
 
         loadMoreBtnEl.classList.add('active');
@@ -140,4 +142,3 @@ formEl.addEventListener('submit', async event => {
 // ------------------------------------------------
 // -------------------- Click button's actions
 loadMoreBtnEl.addEventListener('click', loadMoreControle);
-

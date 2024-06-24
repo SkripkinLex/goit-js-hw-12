@@ -25,7 +25,7 @@ let query;
 let gallery;
 
 gallery = new SimpleLightbox('.gallery a');
-const loadMoreControle =  async (e) => {
+const loadMoreControle =  async () => {
   const totalPages = Math.ceil(data.totalHits / perPage);
 
   if (pageNumber >= totalPages) {

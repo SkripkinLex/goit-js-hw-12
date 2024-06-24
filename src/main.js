@@ -124,12 +124,8 @@ formEl.addEventListener('submit', async event => {
   formEl.reset();
 });
 // ------------------------------------------------
-
 // -------------------- Click button's actions
-
-
-loadMoreBtnEl.addEventListener('click', async e => {
-  // Кількість груп в колекції
+const loadMoreControl =  async (e) => {
   const totalPages = Math.ceil(data.totalHits / perPage);
 
   if (pageNumber >= totalPages) {
@@ -143,4 +139,4 @@ loadMoreBtnEl.addEventListener('click', async e => {
 
     increasePage();
   }
-});
+};

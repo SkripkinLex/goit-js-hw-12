@@ -139,5 +139,5 @@ formEl.addEventListener('submit', async event => {
 });
 // ------------------------------------------------
 // -------------------- Click button's actions
-loadMoreBtnEl.addEventListener('click', loadMoreControle());
+loadMoreBtnEl.addEventListener('click', loadMoreControle);
 

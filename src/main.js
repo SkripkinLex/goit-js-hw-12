@@ -132,7 +132,7 @@ loadMoreBtnEl.addEventListener('click', async e => {
   // Кількість груп в колекції
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (pageNumber >= totalPages) {
+  if (currentPage >= totalPages) {
     console.log('No more pages to load.');
     loadMoreBtnEl.disabled = true;
   } else {

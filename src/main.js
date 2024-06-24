@@ -128,7 +128,7 @@ formEl.addEventListener('submit', async event => {
 // -------------------- Click button's actions
 
 
-// -----loadMoreBtnEl.addEventListener('click', async e => {
+loadMoreBtnEl.addEventListener('click', async e => {
   // Кількість груп в колекції
   const totalPages = Math.ceil(data.totalHits / perPage);
 
@@ -142,4 +142,5 @@ formEl.addEventListener('submit', async event => {
     gallery.refresh();
 
     increasePage();
-  };
+  }
+});

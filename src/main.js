@@ -25,7 +25,21 @@ let query;
 let gallery;
 
 gallery = new SimpleLightbox('.gallery a');
+const loadMoreControle =  async (e) => {
+  const totalPages = Math.ceil(data.totalHits / perPage);
 
+  if (pageNumber >= totalPages) {
+    console.log('No more pages to load.');
+    loadMoreBtnEl.disabled = true;
+  } else {
+    data = await sendQuery(query);
+
+    ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
+    gallery.refresh();
+
+    increasePage();
+  }
+};
 // ---------------------------------------------------------
 
 function clearGallery() {
@@ -125,18 +139,5 @@ formEl.addEventListener('submit', async event => {
 });
 // ------------------------------------------------
 // -------------------- Click button's actions
-const loadMoreControl =  async (e) => {
-  const totalPages = Math.ceil(data.totalHits / perPage);
+loadMoreBtnEl.addEventListener('click', loadMoreControle());
 
-  if (pageNumber >= totalPages) {
-    console.log('No more pages to load.');
-    loadMoreBtnEl.disabled = true;
-  } else {
-    data = await sendQuery(query);
-
-    ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
-    gallery.refresh();
-
-    increasePage();
-  }
-};

@@ -68,6 +68,7 @@ async function loadMoreControle() {
   if (pageNumber >= totalPages) {
     console.log('No more pages to load.');
     loadMoreBtnEl.disabled = true;
+    loadMoreBtnEl.style.display = "none";
   } else {
     data = await sendQuery(query);
 

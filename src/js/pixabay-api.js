@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-const perPage = 15;
-let pageNumber = 1;
+import { pageNumber , perPage } from '../main';
 /**
  *
  * @param {String} query

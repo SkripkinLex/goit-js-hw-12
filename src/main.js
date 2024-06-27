@@ -38,7 +38,7 @@ function resetPageNumber() {
 }
 
 function checkEndPages(totalPages) {
-  if (pageNumber < totalPages) {
+  if (pageNumber > totalPages) {
     hideLoadMoreBtn();
     return iziToast.error({
       class: 'izt-toast-message',
@@ -58,7 +58,7 @@ function checkEndPages(totalPages) {
 async function loadMoreControle() {
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (pageNumber >= totalPages) {
+  if (pageNumber <= totalPages) {
     console.log('No more pages to load.');
     loadMoreBtnEl.disabled = true;
     loadMoreBtnEl.style.display = "none";

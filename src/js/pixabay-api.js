@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { pageNumber , perPage } from '../main';
+
 /**
  *
  * @param {String} query

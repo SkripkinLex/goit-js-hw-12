@@ -258,7 +258,7 @@ formEl.addEventListener('submit', async event => {
       } else {
         clearGallery();
 
-        ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
+        // ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
         increasePage();
 
         gallery.refresh();

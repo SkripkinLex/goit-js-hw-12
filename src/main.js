@@ -75,36 +75,6 @@ async function loadMoreControle() {
   }
 }
 
-// function checkEndPages() {
-//   if (pageNumber >= totalPages) {
-//     hideLoadMoreBtn();
-
-//     return iziToast.error({
-//       class: 'izt-toast-message',
-//       message: "We're sorry, but you've reached the end of search results.",
-//       messageSize: '16',
-//       messageLineHeight: '24',
-//       messageColor: '#ffffff',
-
-//       backgroundColor: '#b51b1b',
-//       iconUrl: iconClose,
-//       position: 'topRight',
-//       theme: 'dark',
-//     });
-//   } else {
-//     showLoadMoreBtn();
-//   }
-// }
-
-// function scrollElem() {
-//   const liEl = ulEl.children[0];
-//   const heightOfLiEl = liEl.getBoundingClientRect().height;
-
-//   window.scrollBy({
-//     top: heightOfLiEl * 2,
-//     behavior: 'smooth',
-//   });
-// }
 
 // ---------- Submit actions-----------------------------------------------
 

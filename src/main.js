@@ -13,8 +13,6 @@ const ulEl = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const loadMoreBtnEl = document.querySelector('.load-more__button');
 
-// export const perPage = 15;
-// export let pageNumber = 1;
 
 let query;
 let gallery;
@@ -40,7 +38,7 @@ function resetPageNumber() {
 }
 
 function checkEndPages(totalPages) {
-  if (pageNumber > totalPages) {
+  if (pageNumber < totalPages) {
     hideLoadMoreBtn();
     return iziToast.error({
       class: 'izt-toast-message',

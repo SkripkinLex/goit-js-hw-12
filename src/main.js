@@ -37,9 +37,46 @@ function resetPageNumber() {
   return (pageNumber = 1);
 }
 
-function checkEndPages(totalPages) {
-  if (pageNumber > totalPages) {
+// function checkEndPages(totalPages) {
+//   if (pageNumber > totalPages) {
+//     hideLoadMoreBtn();
+//     return iziToast.error({
+//       class: 'izt-toast-message',
+//       message: "We're sorry, but you've reached the end of search results.",
+//       messageSize: '16',
+//       messageLineHeight: '24',
+//       messageColor: '#ffffff',
+
+//       backgroundColor: '#b51b1b',
+//       iconUrl: iconClose,
+//       position: 'topRight',
+//       theme: 'dark',
+//     });
+//   }
+// }
+
+// async function loadMoreControle() {
+//   const totalPages = Math.ceil(data.totalHits / perPage);
+
+//   if (pageNumber >= totalPages) {
+//     console.log('No more pages to load.');
+//     loadMoreBtnEl.disabled = true;
+//     loadMoreBtnEl.style.display = "none";
+//   } else {
+//     const data = await sendQuery(query, pageNumber, perPage);
+
+//     ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
+//     gallery.refresh();
+
+//     increasePage();
+//     checkEndPages(totalPages);
+//   }
+// }
+
+function checkEndPages() {
+  if (pageNumber >= totalPages) {
     hideLoadMoreBtn();
+
     return iziToast.error({
       class: 'izt-toast-message',
       message: "We're sorry, but you've reached the end of search results.",
@@ -52,25 +89,19 @@ function checkEndPages(totalPages) {
       position: 'topRight',
       theme: 'dark',
     });
+  } else {
+    showLoadMoreBtn();
   }
 }
 
-async function loadMoreControle() {
-  const totalPages = Math.ceil(data.totalHits / perPage);
+function scrollElem() {
+  const liEl = ulEl.children[0];
+  const heightOfLiEl = liEl.getBoundingClientRect().height;
 
-  if (pageNumber <= totalPages) {
-    console.log('No more pages to load.');
-    loadMoreBtnEl.disabled = true;
-    loadMoreBtnEl.style.display = "none";
-  } else {
-    const data = await sendQuery(query, pageNumber, perPage);
-
-    ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
-    gallery.refresh();
-
-    increasePage();
-    checkEndPages(totalPages);
-  }
+  window.scrollBy({
+    top: heightOfLiEl * 2,
+    behavior: 'smooth',
+  });
 }
 
 // ---------- Submit actions-----------------------------------------------

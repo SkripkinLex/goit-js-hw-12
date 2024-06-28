@@ -21,7 +21,8 @@ let gallery;
 gallery = new SimpleLightbox('.gallery a');
 
 // ---------------------------------------------------------
-let pageNumber; 
+let pageNumber;
+let perPage;
 
 function clearGallery() {
   ulEl.innerHTML = '';

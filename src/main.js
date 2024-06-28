@@ -22,7 +22,7 @@ gallery = new SimpleLightbox('.gallery a');
 
 // ---------------------------------------------------------
 let pageNumber;
-let perPage;
+let perPage = 15;
 
 
 function clearGallery() {

@@ -24,6 +24,7 @@ gallery = new SimpleLightbox('.gallery a');
 let pageNumber;
 let perPage;
 
+
 function clearGallery() {
   ulEl.innerHTML = '';
 }
@@ -39,6 +40,7 @@ function hideLoadMoreBtn() {
 function resetPageNumber() {
   return (pageNumber = 1);
 }
+
 
 function checkEndPages(totalPages) {
   if (pageNumber > totalPages) {
@@ -58,7 +60,9 @@ function checkEndPages(totalPages) {
   }
 }
 
+
 async function loadMoreControle() {
+  const data = await sendQuery(query, pageNumber, perPage);
   const totalPages = Math.ceil(data.totalHits / perPage);
 
   if (pageNumber == totalPages) {
@@ -66,7 +70,7 @@ async function loadMoreControle() {
     loadMoreBtnEl.disabled = true;
     loadMoreBtnEl.style.display = "none";
   } else {
-    const data = await sendQuery(query, pageNumber, perPage);
+    
 
     ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
     gallery.refresh();

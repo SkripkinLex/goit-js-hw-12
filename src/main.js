@@ -30,6 +30,10 @@ function hideLoadMoreBtn() {
   loadMoreBtnEl.classList.remove('active');
 }
 
+function showLoadMoreBtn() {
+  loadMoreBtnEl.classList.add('active');
+}
+
 function resetPageNumber() {
   return (pageNumber = 1);
 }
@@ -55,10 +59,9 @@ async function loadMoreControle() {
   const data = await sendQuery(query, pageNumber, perPage);
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (pageNumber === totalPages) {
+  if (data.hits.length < perPage || pageNumber === totalPages) {
     console.log('No more pages to load.');
-    loadMoreBtnEl.disabled = true;
-    loadMoreBtnEl.style.display = "none";
+    hideLoadMoreBtn();
   } else {
     ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
     gallery.refresh();
@@ -88,8 +91,7 @@ formEl.addEventListener('submit', async event => {
 
     try {
       const data = await sendQuery(query, pageNumber, perPage); // {total: 24170, totalHits: 500, hits: Array(3)}
-      loadMoreControle();
-
+      clearGallery();
       if (data.hits.length === 0) {
         iziToast.show({
           class: 'izt-toast-message',
@@ -102,13 +104,14 @@ formEl.addEventListener('submit', async event => {
           position: 'topRight',
           theme: 'dark',
         });
-
-        clearGallery();
       } else {
-        clearGallery();
+        ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
         increasePage();
         gallery.refresh();
-        loadMoreBtnEl.classList.add('active');
+        
+        if (data.hits.length === perPage) {
+          showLoadMoreBtn();
+        }
       }
     } catch (err) {
       console.log(err);

@@ -14,12 +14,14 @@ const loader = document.querySelector('.loader');
 const loadMoreBtnEl = document.querySelector('.load-more__button');
 
 
+
 let query;
 let gallery;
 
 gallery = new SimpleLightbox('.gallery a');
 
 // ---------------------------------------------------------
+let pageNumber; 
 
 function clearGallery() {
   ulEl.innerHTML = '';
@@ -58,7 +60,7 @@ function checkEndPages(totalPages) {
 async function loadMoreControle() {
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (pageNumber === totalPages) {
+  if (pageNumber == totalPages) {
     console.log('No more pages to load.');
     loadMoreBtnEl.disabled = true;
     loadMoreBtnEl.style.display = "none";

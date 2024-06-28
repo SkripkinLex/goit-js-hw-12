@@ -13,17 +13,10 @@ const ulEl = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const loadMoreBtnEl = document.querySelector('.load-more__button');
 
-
-
 let query;
-let gallery;
-
-gallery = new SimpleLightbox('.gallery a');
-
-// ---------------------------------------------------------
+let gallery = new SimpleLightbox('.gallery a');
 let pageNumber;
 let perPage = 15;
-
 
 function clearGallery() {
   ulEl.innerHTML = '';
@@ -41,7 +34,6 @@ function resetPageNumber() {
   return (pageNumber = 1);
 }
 
-
 function checkEndPages(totalPages) {
   if (pageNumber === totalPages) {
     hideLoadMoreBtn();
@@ -51,7 +43,6 @@ function checkEndPages(totalPages) {
       messageSize: '16',
       messageLineHeight: '24',
       messageColor: '#ffffff',
-
       backgroundColor: '#b51b1b',
       iconUrl: iconClose,
       position: 'topRight',
@@ -59,7 +50,6 @@ function checkEndPages(totalPages) {
     });
   }
 }
-
 
 async function loadMoreControle() {
   const data = await sendQuery(query, pageNumber, perPage);
@@ -70,16 +60,17 @@ async function loadMoreControle() {
     loadMoreBtnEl.disabled = true;
     loadMoreBtnEl.style.display = "none";
   } else {
-    
-
     ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
     gallery.refresh();
+    
+    // Scroll to the newly added items
+    const lastAddedItem = ulEl.lastElementChild;
+    lastAddedItem.scrollIntoView({ behavior: 'smooth' });
 
     increasePage();
     checkEndPages(totalPages);
   }
 }
-
 
 // ---------- Submit actions-----------------------------------------------
 
@@ -115,12 +106,8 @@ formEl.addEventListener('submit', async event => {
         clearGallery();
       } else {
         clearGallery();
-
-        // ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
         increasePage();
-
         gallery.refresh();
-
         loadMoreBtnEl.classList.add('active');
       }
     } catch (err) {
@@ -132,6 +119,7 @@ formEl.addEventListener('submit', async event => {
 
   formEl.reset();
 });
+
 // ------------------------------------------------
 // -------------------- Click button's actions
 loadMoreBtnEl.addEventListener('click', loadMoreControle);

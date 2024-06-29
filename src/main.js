@@ -67,12 +67,8 @@ async function loadMoreControle() {
     gallery.refresh();
     
     // Scroll to the newly added items
-    const items = ulEl.querySelectorAll('li'); // Assuming that each item is wrapped in an <li> tag
-    const itemHeight = items[0].getBoundingClientRect().height;
-    const rowsToScroll = 2; // Number of rows to scroll
-    const scrollDistance = itemHeight * rowsToScroll;
-    
-    ulEl.scrollBy({ top: scrollDistance, behavior: 'smooth' });
+    const lastAddedItem = ulEl.lastElementChild;
+    lastAddedItem.scrollIntoView({ behavior: 'smooth' });
 
     increasePage();
     checkEndPages(totalPages);

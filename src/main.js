@@ -84,8 +84,9 @@ async function loadMoreControle() {
   const totalPages = Math.ceil(data.totalHits / perPage);
 
   if (data.hits.length === 0 || pageNumber >= totalPages) {
-    console.log('No more pages to load.');
     hideLoadMoreBtn();
+    return('No more pages to load.');
+    
   } else {
     ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
     gallery.refresh();

@@ -83,11 +83,25 @@ async function loadMoreControle() {
   const data = await sendQuery(query, pageNumber, perPage);
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (data.hits.length === 0 || pageNumber >= totalPages) {
+  if (data.hits.length === 0) {
     hideLoadMoreBtn();
-    return('No more pages to load.');
+    iziToast.show({
+      class: 'izt-toast-message',
+      message: 'Wait please!',
+      messageSize: '16',
+      messageLineHeight: '24',
+      messageColor: '#ffffff',
+      backgroundColor: '#b51b1b',
+      iconUrl: iconClose,
+      position: 'topRight',
+      theme: 'dark',
+    });
+    return;
     
-  } else {
+  } 
+  if(pageNumber >= totalPages){
+    hideLoadMoreBtn();
+  
     ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
     gallery.refresh();
     

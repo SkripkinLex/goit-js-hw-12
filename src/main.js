@@ -77,11 +77,13 @@ function smoothScrollBy(element, distance, duration) {
   requestAnimationFrame(animation);
 }
 
+
+
 async function loadMoreControle() {
   const data = await sendQuery(query, pageNumber, perPage);
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (data.hits.length < perPage || pageNumber >= totalPages) {
+  if (data.hits.length === 0 || pageNumber >= totalPages) {
     console.log('No more pages to load.');
     hideLoadMoreBtn();
   } else {

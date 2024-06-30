@@ -39,7 +39,7 @@ function resetPageNumber() {
 }
 
 function checkEndPages(totalPages) {
-  if (pageNumber === totalPages) {
+  if (pageNumber > totalPages) {
     hideLoadMoreBtn();
     return iziToast.error({
       class: 'izt-toast-message',
@@ -55,11 +55,33 @@ function checkEndPages(totalPages) {
   }
 }
 
+function smoothScrollBy(element, distance, duration) {
+  let start = element.scrollTop;
+  let startTime = null;
+
+  function animation(currentTime) {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const run = ease(timeElapsed, start, distance, duration);
+    element.scrollTop = run;
+    if (timeElapsed < duration) requestAnimationFrame(animation);
+  }
+
+  function ease(t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return c / 2 * t * t + b;
+    t--;
+    return -c / 2 * (t * (t - 2) - 1) + b;
+  }
+
+  requestAnimationFrame(animation);
+}
+
 async function loadMoreControle() {
   const data = await sendQuery(query, pageNumber, perPage);
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (data.hits.length < perPage || pageNumber === totalPages) {
+  if (data.hits.length < perPage || pageNumber >= totalPages) {
     console.log('No more pages to load.');
     hideLoadMoreBtn();
   } else {
@@ -67,17 +89,19 @@ async function loadMoreControle() {
     gallery.refresh();
     
     // Scroll to the newly added items
-    const lastAddedItem = ulEl.lastElementChild;
-    lastAddedItem.scrollIntoView({ behavior: 'smooth' });
+    const items = ulEl.querySelectorAll('li'); // Assuming that each item is wrapped in an <li> tag
+    const itemHeight = items[0].getBoundingClientRect().height;
+    const rowsToScroll = 2; // Number of rows to scroll
+    const scrollDistance = itemHeight * rowsToScroll;
+    
+    smoothScrollBy(ulEl, scrollDistance, 500); // Scroll the gallery container
 
     increasePage();
     checkEndPages(totalPages);
   }
 }
 
-// ---------- Submit actions-----------------------------------------------
-
-formEl.addEventListener('submit', async event => {
+async function handleFormSubmit(event) {
   event.preventDefault();
 
   const valueOfInput = event.target.elements.query.value.trim();
@@ -90,7 +114,7 @@ formEl.addEventListener('submit', async event => {
     addLoader(loader);
 
     try {
-      const data = await sendQuery(query, pageNumber, perPage); // {total: 24170, totalHits: 500, hits: Array(3)}
+      const data = await sendQuery(query, pageNumber, perPage);
       clearGallery();
       if (data.hits.length === 0) {
         iziToast.show({
@@ -108,9 +132,11 @@ formEl.addEventListener('submit', async event => {
         ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
         increasePage();
         gallery.refresh();
-        
+
         if (data.hits.length === perPage) {
           showLoadMoreBtn();
+        } else {
+          hideLoadMoreBtn();
         }
       }
     } catch (err) {
@@ -121,8 +147,11 @@ formEl.addEventListener('submit', async event => {
   }
 
   formEl.reset();
-});
+}
 
-// ------------------------------------------------
+// ---------- Submit actions-----------------------------------------------
+
+formEl.addEventListener('submit', handleFormSubmit);
+
 // -------------------- Click button's actions
 loadMoreBtnEl.addEventListener('click', loadMoreControle);

@@ -184,6 +184,10 @@
     max-width: 432px !important;
  }
  
+ .izt-toast-message-btn {
+   font-family: 'Montserrat' !important;
+   max-width: 432px !important;
+}
  /* ----------------------------------- */
  @media only screen and (min-width:768px) {
     .gallery-item {

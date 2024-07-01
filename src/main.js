@@ -85,21 +85,10 @@ async function loadMoreControle() {
 
   if (data.hits.length === 0) {
     hideLoadMoreBtn();
-    iziToast.show({
-      class: 'izt-toast-message',
-      message: 'Wait please!',
-      messageSize: '16',
-      messageLineHeight: '24',
-      messageColor: '#ffffff',
-      backgroundColor: '#b51b1b',
-      iconUrl: iconClose,
-      position: 'topRight',
-      theme: 'dark',
-    });
     return;
     
   } 
-  if(pageNumber >= totalPages){
+  if(pageNumber <= totalPages){
     hideLoadMoreBtn();
   
     ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));

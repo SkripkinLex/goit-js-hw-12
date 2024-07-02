@@ -77,33 +77,50 @@ function smoothScrollBy(element, distance, duration) {
   requestAnimationFrame(animation);
 }
 
-
-
 async function loadMoreControle() {
   const data = await sendQuery(query, pageNumber, perPage);
   const totalPages = Math.ceil(data.totalHits / perPage);
 
-  if (data.hits.length === 0) {
-    hideLoadMoreBtn();
-    return;
-    
-  } 
-  if(pageNumber <= totalPages){
-    hideLoadMoreBtn();
-  
+  if (data.hits.length > 0) {
     ulEl.insertAdjacentHTML('beforeend', renderCards(data.hits));
     gallery.refresh();
-    
+
     // Scroll to the newly added items
     const items = ulEl.querySelectorAll('li'); // Assuming that each item is wrapped in an <li> tag
     const itemHeight = items[0].getBoundingClientRect().height;
     const rowsToScroll = 2; // Number of rows to scroll
     const scrollDistance = itemHeight * rowsToScroll;
     
-    smoothScrollBy(ulEl, scrollDistance, 500); // Scroll the gallery container
+    smoothScrollBy(document.documentElement, scrollDistance, 500); // Scroll the whole page
 
     increasePage();
-    checkEndPages(totalPages);
+    if (pageNumber > totalPages) {
+      hideLoadMoreBtn();
+      iziToast.error({
+        class: 'izt-toast-message',
+        message: "We're sorry, but you've reached the end of search results.",
+        messageSize: '16',
+        messageLineHeight: '24',
+        messageColor: '#ffffff',
+        backgroundColor: '#b51b1b',
+        iconUrl: iconClose,
+        position: 'topRight',
+        theme: 'dark',
+      });
+    }
+  } else {
+    hideLoadMoreBtn();
+    iziToast.error({
+      class: 'izt-toast-message',
+      message: "We're sorry, but you've reached the end of search results.",
+      messageSize: '16',
+      messageLineHeight: '24',
+      messageColor: '#ffffff',
+      backgroundColor: '#b51b1b',
+      iconUrl: iconClose,
+      position: 'topRight',
+      theme: 'dark',
+    });
   }
 }
 
@@ -143,6 +160,17 @@ async function handleFormSubmit(event) {
           showLoadMoreBtn();
         } else {
           hideLoadMoreBtn();
+          iziToast.error({
+            class: 'izt-toast-message',
+            message: "We're sorry, but you've reached the end of search results.",
+            messageSize: '16',
+            messageLineHeight: '24',
+            messageColor: '#ffffff',
+            backgroundColor: '#b51b1b',
+            iconUrl: iconClose,
+            position: 'topRight',
+            theme: 'dark',
+          });
         }
       }
     } catch (err) {
